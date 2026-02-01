@@ -20,6 +20,20 @@ app.use(express.json());
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/tasks', require('./routes/tasks'));
 
+// Root welcome endpoint
+app.get('/', (req, res) => {
+    res.json({
+        success: true,
+        message: 'TaskFlow API is running!',
+        version: '1.0.0',
+        endpoints: {
+            health: '/api/health',
+            auth: '/api/auth',
+            tasks: '/api/tasks'
+        }
+    });
+});
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
