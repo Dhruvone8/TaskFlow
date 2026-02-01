@@ -1,23 +1,20 @@
 const express = require('express');
 const cors = require('cors');
 require('dotenv').config();
-require('./config/db'); // Just import to trigger connection
+const connectDB = require('./config/db');
 
 const app = express();
 
-// CORS configuration - allow all Vercel deployments
+// CORS configuration
 const corsOptions = {
     origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps, curl, Postman)
         if (!origin) return callback(null, true);
-
-        // Allow all vercel.app domains and localhost
         if (origin.includes('vercel.app') ||
             origin.includes('localhost') ||
             origin.includes('127.0.0.1')) {
             callback(null, true);
         } else {
-            callback(null, true); // Allow all origins for now to debug
+            callback(null, true);
         }
     },
     credentials: true,
@@ -26,20 +23,34 @@ const corsOptions = {
     optionsSuccessStatus: 200
 };
 
-// Apply CORS before any routes
 app.use(cors(corsOptions));
-
-// Handle preflight requests explicitly
 app.options('*', cors(corsOptions));
-
-// Parse JSON bodies
 app.use(express.json());
+
+// Connect to database before handling requests
+let dbConnected = false;
+
+app.use(async (req, res, next) => {
+    if (!dbConnected) {
+        try {
+            await connectDB();
+            dbConnected = true;
+        } catch (error) {
+            console.error('Database connection failed:', error);
+            return res.status(500).json({
+                success: false,
+                message: 'Database connection failed'
+            });
+        }
+    }
+    next();
+});
 
 // Routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/tasks', require('./routes/tasks'));
 
-// Root welcome endpoint
+// Root endpoint
 app.get('/', (req, res) => {
     res.json({
         success: true,
@@ -53,12 +64,16 @@ app.get('/', (req, res) => {
     });
 });
 
-// Health check endpoint
+// Health check
 app.get('/api/health', (req, res) => {
-    res.json({ status: 'ok', timestamp: new Date().toISOString() });
+    res.json({
+        status: 'ok',
+        timestamp: new Date().toISOString(),
+        database: dbConnected ? 'connected' : 'disconnected'
+    });
 });
 
-// Error handling middleware
+// Error handling
 app.use((err, req, res, next) => {
     console.error('Error:', err);
     res.status(err.status || 500).json({
@@ -76,10 +91,12 @@ app.use((req, res) => {
 // For local development
 if (process.env.NODE_ENV !== 'production') {
     const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-        console.log(`Server running on port ${PORT}`);
+    connectDB().then(() => {
+        app.listen(PORT, () => {
+            console.log(`Server running on port ${PORT}`);
+        });
     });
 }
 
-// Export for Vercel serverless
+// Export for Vercel
 module.exports = app;
