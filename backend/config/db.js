@@ -1,24 +1,9 @@
-const mongoose = require('mongoose');
+require("dotenv").config();
+const mongoose = require("mongoose");
 
-const connectDB = async () => {
-    try {
-        const mongoURI = process.env.MONGODB_URI || 'mongodb://localhost:27017/taskmanager';
+mongoose
+    .connect(`${process.env.MONGODB_URI}/TaskFlow`)
+    .then(() => console.log("MongoDB Connection Established!! ✅"))
+    .catch((err) => console.error("MongoDB Error:", err));
 
-        const conn = await mongoose.connect(mongoURI);
-
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
-    } catch (error) {
-        console.error(`MongoDB Connection Error: ${error.message}`);
-        process.exit(1);
-    }
-};
-
-mongoose.connection.on('disconnected', () => {
-    console.log('MongoDB disconnected');
-});
-
-mongoose.connection.on('error', (err) => {
-    console.error(`MongoDB error: ${err}`);
-});
-
-module.exports = connectDB;
+module.exports = mongoose.connection;
