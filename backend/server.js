@@ -4,55 +4,22 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 
 const app = express();
+connectDB();
 
-// Basic middleware
+// Middleware
 app.use(cors({
     origin: process.env.FRONTEND_URL || '*',
     credentials: true
 }));
 app.use(express.json());
 
-// Connect to MongoDB before handling requests
-let dbConnected = false;
-
-async function ensureDB() {
-    if (!dbConnected) {
-        await connectDB();
-        dbConnected = true;
-    }
-}
-
-// Middleware to ensure DB is connected before any API route
-app.use('/api', async (req, res, next) => {
-    try {
-        await ensureDB();
-        next();
-    } catch (err) {
-        res.status(503).json({
-            success: false,
-            message: 'Database connection failed'
-        });
-    }
-});
-
-// Test route - NO DATABASE
+// Health check
 app.get('/', (req, res) => {
-    res.json({
-        success: true,
-        message: 'Server is running!',
-        timestamp: new Date().toISOString()
-    });
+    res.json({ success: true, message: 'TaskFlow API is running' });
 });
 
 app.get('/api/health', (req, res) => {
-    res.json({
-        status: 'ok',
-        env: {
-            node: process.env.NODE_ENV,
-            hasMongoUri: !!process.env.MONGODB_URI
-        },
-        dbConnected
-    });
+    res.json({ status: 'ok' });
 });
 
 // API Routes
@@ -61,11 +28,12 @@ app.use('/api/tasks', require('./routes/tasks'));
 
 // Error handler
 app.use((err, req, res, next) => {
-    console.error('Error:', err);
-    res.status(500).json({
-        success: false,
-        message: err.message
-    });
+    console.error('Error:', err.message);
+    res.status(500).json({ success: false, message: err.message });
 });
 
-module.exports = app;
+// Start server
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
