@@ -385,3 +385,344 @@ body {
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
+
+/* ============================================
+   MOBILE RESPONSIVE STYLES
+   ============================================ */
+
+/* Mobile-first responsive breakpoints */
+/* sm: 640px, md: 768px, lg: 1024px, xl: 1280px */
+
+/* Extra Small Devices (Portrait phones, less than 480px) */
+@media (max-width: 479px) {
+    html {
+        font-size: 14px;
+    }
+
+    /* Navbar adjustments */
+    .glass.sticky {
+        padding: 0 calc(var(--spacing-unit) * 1);
+    }
+
+    /* Card padding reduction */
+    .card {
+        padding: calc(var(--spacing-unit) * 2);
+        border-radius: var(--radius-lg);
+    }
+
+    /* Form card padding */
+    .glass.p-8 {
+        padding: calc(var(--spacing-unit) * 2.5) !important;
+    }
+
+    /* Button sizing for touch */
+    .btn {
+        padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 2);
+        font-size: 0.8125rem;
+        min-height: 44px;
+        /* Touch target minimum */
+    }
+
+    /* Input sizing for touch */
+    .input {
+        padding: calc(var(--spacing-unit) * 1.5) calc(var(--spacing-unit) * 1.5);
+        font-size: 16px;
+        /* Prevents zoom on iOS */
+        min-height: 44px;
+    }
+
+    /* Badge sizing */
+    .badge {
+        padding: calc(var(--spacing-unit) * 0.375) calc(var(--spacing-unit) * 1);
+        font-size: 0.6875rem;
+    }
+
+    /* Filter section - stack vertically */
+    .flex.flex-wrap.items-center.gap-4 {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .flex.flex-wrap.items-center.gap-4>div {
+        width: 100%;
+    }
+
+    .flex.flex-wrap.items-center.gap-4 select {
+        width: 100%;
+        min-width: unset !important;
+    }
+
+    /* User welcome text - hide on very small screens */
+    nav .flex.items-center.gap-4 span {
+        display: none;
+    }
+}
+
+/* Small Devices (Landscape phones, 480px to 639px) */
+@media (min-width: 480px) and (max-width: 639px) {
+    html {
+        font-size: 15px;
+    }
+
+    .btn {
+        min-height: 44px;
+    }
+
+    .input {
+        font-size: 16px;
+        min-height: 44px;
+    }
+
+    /* Filter adjustments */
+    .flex.flex-wrap.items-center.gap-4 {
+        gap: calc(var(--spacing-unit) * 1.5);
+    }
+}
+
+/* Small to Medium Devices (max-width 640px) */
+@media (max-width: 640px) {
+
+    /* Container padding adjustments */
+    .px-4 {
+        padding-left: calc(var(--spacing-unit) * 2) !important;
+        padding-right: calc(var(--spacing-unit) * 2) !important;
+    }
+
+    /* Responsive typography */
+    .text-3xl {
+        font-size: 1.5rem !important;
+        line-height: 1.3 !important;
+    }
+
+    .text-2xl {
+        font-size: 1.25rem !important;
+    }
+
+    .text-xl {
+        font-size: 1.125rem !important;
+    }
+
+    /* Stats cards - single column on very small */
+    .grid.grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+        gap: calc(var(--spacing-unit) * 1.5);
+    }
+
+    /* Stats card text */
+    .glass.p-4 .text-2xl {
+        font-size: 1.5rem !important;
+    }
+
+    .glass.p-4 .text-sm {
+        font-size: 0.75rem !important;
+    }
+
+    /* Navbar height adjustment */
+    .h-16 {
+        height: 56px;
+    }
+
+    /* Logo sizing */
+    nav .text-xl {
+        font-size: 1rem !important;
+    }
+
+    nav .w-8.h-8 {
+        width: 24px;
+        height: 24px;
+    }
+
+    /* User menu compact */
+    nav .gap-4 {
+        gap: calc(var(--spacing-unit) * 1);
+    }
+
+    /* Hide logout text, keep icon */
+    nav .btn.btn-ghost .w-5.h-5 {
+        margin-right: 0;
+    }
+
+    /* Task card actions - full width buttons */
+    .card .flex.items-center.gap-2.pt-3 {
+        flex-wrap: wrap;
+    }
+
+    .card .btn.btn-ghost.flex-1 {
+        min-width: 45%;
+    }
+
+    /* Empty state adjustments */
+    .w-24.h-24 {
+        width: 64px;
+        height: 64px;
+    }
+
+    /* Form container max-width */
+    .max-w-md {
+        max-width: 100%;
+        margin: 0 calc(var(--spacing-unit) * 2);
+    }
+
+    /* Auth pages padding */
+    .min-h-screen.flex.items-center.justify-center.p-4 {
+        padding: calc(var(--spacing-unit) * 2);
+    }
+}
+
+/* Medium Devices (Tablets, 641px to 768px) */
+@media (min-width: 641px) and (max-width: 768px) {
+
+    /* Stats grid - 2 columns */
+    .grid.grid-cols-2.md\:grid-cols-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Task grid - single column */
+    .grid.md\:grid-cols-2 {
+        grid-template-columns: 1fr;
+    }
+
+    /* Filter section - partial wrap */
+    .flex.flex-wrap.items-center.gap-4 {
+        gap: calc(var(--spacing-unit) * 2);
+    }
+}
+
+/* Medium to Large Devices (769px to 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    /* Stats grid - 4 columns */
+    .grid.grid-cols-2.md\:grid-cols-4 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* Task grid - 2 columns */
+    .grid.md\:grid-cols-2.lg\:grid-cols-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+
+    /* Larger touch targets */
+    .btn {
+        min-height: 48px;
+        min-width: 48px;
+    }
+
+    /* Remove hover effects that don't work on touch */
+    .btn:hover:not(:disabled) {
+        transform: none;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+
+    /* Add active states for touch feedback */
+    .btn:active:not(:disabled) {
+        opacity: 0.8;
+        transform: scale(0.98);
+    }
+
+    .card:active {
+        opacity: 0.95;
+    }
+
+    /* Quick status toggle - larger for touch */
+    .w-8.h-8.rounded-full {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Landscape orientation on mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+
+    /* Reduce vertical spacing */
+    .py-8 {
+        padding-top: calc(var(--spacing-unit) * 2) !important;
+        padding-bottom: calc(var(--spacing-unit) * 2) !important;
+    }
+
+    .mb-8 {
+        margin-bottom: calc(var(--spacing-unit) * 2) !important;
+    }
+
+    /* Auth pages - remove centering to allow scroll */
+    .min-h-screen.flex.items-center {
+        align-items: flex-start;
+        padding-top: calc(var(--spacing-unit) * 2);
+    }
+
+    /* Logo section compact */
+    .text-center.mb-8 {
+        margin-bottom: calc(var(--spacing-unit) * 2);
+    }
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: max(0px)) {
+    .glass.sticky {
+        padding-left: max(calc(var(--spacing-unit) * 2), env(safe-area-inset-left));
+        padding-right: max(calc(var(--spacing-unit) * 2), env(safe-area-inset-right));
+    }
+
+    .px-4 {
+        padding-left: max(calc(var(--spacing-unit) * 2), env(safe-area-inset-left)) !important;
+        padding-right: max(calc(var(--spacing-unit) * 2), env(safe-area-inset-right)) !important;
+    }
+
+    main {
+        padding-bottom: max(calc(var(--spacing-unit) * 4), env(safe-area-inset-bottom));
+    }
+}
+
+/* Dark mode responsive adjustments */
+@media (prefers-color-scheme: dark) {
+    .glass {
+        background: rgba(30, 30, 30, 0.8);
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+
+    .glass:hover {
+        background: rgba(40, 40, 40, 0.9);
+        border-color: rgba(255, 255, 255, 0.15);
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .btn {
+        border: 2px solid currentColor;
+    }
+
+    .input {
+        border-width: 2px;
+    }
+
+    .card {
+        border-width: 2px;
+    }
+}
+
+/* Print styles */
+@media print {
+    .glass {
+        background: white;
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        border: 1px solid #ccc;
+    }
+
+    .btn {
+        display: none;
+    }
+
+    .animate-fade-in,
+    .animate-slide-up,
+    .animate-slide-in {
+        animation: none;
+    }
+}

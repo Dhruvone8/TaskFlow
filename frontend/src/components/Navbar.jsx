@@ -34,8 +34,8 @@ const Navbar = () => {
 
                     {/* User Menu */}
                     {user && (
-                        <div className="flex items-center gap-4">
-                            <span className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
+                        <div className="flex items-center gap-2 sm:gap-4">
+                            <span className="hidden sm:inline text-sm" style={{ color: 'var(--color-text-secondary)' }}>
                                 Welcome, <strong style={{ color: 'var(--color-text-primary)' }}>{user.name}</strong>
                             </span>
                             <button
@@ -52,7 +52,7 @@ const Navbar = () => {
                                 >
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                                 </svg>
-                                Logout
+                                <span className="hidden sm:inline">Logout</span>
                             </button>
                         </div>
                     )}
