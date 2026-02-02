@@ -679,18 +679,7 @@ body {
     }
 }
 
-/* Dark mode responsive adjustments */
-@media (prefers-color-scheme: dark) {
-    .glass {
-        background: rgba(30, 30, 30, 0.8);
-        border-color: rgba(255, 255, 255, 0.1);
-    }
 
-    .glass:hover {
-        background: rgba(40, 40, 40, 0.9);
-        border-color: rgba(255, 255, 255, 0.15);
-    }
-}
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
