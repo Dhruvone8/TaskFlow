@@ -238,6 +238,8 @@ const Dashboard = () => {
                     onClose={() => setToast(null)}
                 />
             )}
+
+            <Footer />
         </div>
     );
 };
