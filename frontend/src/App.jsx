@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Dashboard from './pages/Dashboard'
 import TaskForm from './pages/TaskForm'
+import Profile from './pages/Profile'
 
 function App() {
   const { isAuthenticated, loading } = useAuth()
@@ -39,6 +40,22 @@ function App() {
         }
       />
       <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/profile"
+        element={
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/tasks/new"
         element={
           <ProtectedRoute>
@@ -62,3 +79,4 @@ function App() {
 }
 
 export default App
+

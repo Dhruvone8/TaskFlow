@@ -54,4 +54,10 @@ export const tasksAPI = {
     delete: (id) => api.delete(`/tasks/${id}`)
 };
 
+// Profile API
+export const profileAPI = {
+    getProfile: () => api.get('/v1/me'),
+    updateProfile: (data) => api.put('/v1/me', data)
+};
+
 export default api;

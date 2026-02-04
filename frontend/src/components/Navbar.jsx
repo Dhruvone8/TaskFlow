@@ -38,6 +38,22 @@ const Navbar = () => {
                             <span className="hidden sm:inline text-sm" style={{ color: 'var(--color-text-secondary)' }}>
                                 Welcome, <strong style={{ color: 'var(--color-text-primary)' }}>{user.name}</strong>
                             </span>
+                            <Link
+                                to="/profile"
+                                className="btn btn-ghost text-sm"
+                                aria-label="Profile"
+                            >
+                                <svg
+                                    className="w-5 h-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    aria-hidden="true"
+                                >
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                                </svg>
+                                <span className="hidden sm:inline">Profile</span>
+                            </Link>
                             <button
                                 onClick={handleLogout}
                                 className="btn btn-ghost text-sm"
