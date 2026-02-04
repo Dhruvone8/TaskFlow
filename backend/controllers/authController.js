@@ -130,3 +130,56 @@ exports.getMe = async (req, res) => {
         });
     }
 };
+
+exports.updateProfile = async (req, res) => {
+    try {
+        const { name, email } = req.body;
+
+        // Build update object with only provided fields
+        const updateFields = {};
+        if (name) updateFields.name = name;
+        if (email) updateFields.email = email;
+
+        // Check if there's anything to update
+        if (Object.keys(updateFields).length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: 'Please provide at least one field to update'
+            });
+        }
+
+        // If email is being updated, check if it's already taken
+        if (email) {
+            const existingUser = await User.findOne({ email, _id: { $ne: req.user.id } });
+            if (existingUser) {
+                return res.status(400).json({
+                    success: false,
+                    message: 'Email already in use'
+                });
+            }
+        }
+
+        // Update user
+        const user = await User.findByIdAndUpdate(
+            req.user.id,
+            updateFields,
+            { new: true, runValidators: true }
+        );
+
+        res.json({
+            success: true,
+            message: 'Profile updated successfully',
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            }
+        });
+    } catch (error) {
+        console.error('UpdateProfile error:', error);
+        res.status(500).json({
+            success: false,
+            message: error.message || 'Server error during profile update'
+        });
+    }
+};
