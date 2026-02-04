@@ -4,6 +4,7 @@ import { tasksAPI } from '../services/api';
 import TaskCard from '../components/TaskCard';
 import Toast from '../components/Toast';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
 const Dashboard = () => {
     const [tasks, setTasks] = useState([]);
