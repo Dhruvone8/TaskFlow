@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Toast from '../components/Toast';
 
 const Login = () => {
     const [formData, setFormData] = useState({
@@ -8,28 +9,30 @@ const Login = () => {
         password: ''
     });
     const [isLoading, setIsLoading] = useState(false);
-    const [formError, setFormError] = useState('');
+    const [toast, setToast] = useState(null);
 
-    const { login, error, clearError } = useAuth();
+    const { login, clearError } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
 
     const from = location.state?.from?.pathname || '/';
 
+    const showToast = (message, type = 'error') => {
+        setToast({ message, type });
+    };
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
-        setFormError('');
         clearError();
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setFormError('');
 
         // Validation
         if (!formData.email || !formData.password) {
-            setFormError('Please fill in all fields');
+            showToast('Please fill in all fields');
             return;
         }
 
@@ -39,6 +42,8 @@ const Login = () => {
 
         if (result.success) {
             navigate(from, { replace: true });
+        } else {
+            showToast(result.message || 'Invalid credentials');
         }
     };
 
@@ -69,21 +74,6 @@ const Login = () => {
                 <div className="glass p-8 rounded-2xl">
                     <form onSubmit={handleSubmit} noValidate>
                         <h1 className="sr-only">Login to TaskFlow</h1>
-
-                        {/* Error Message */}
-                        {(formError || error) && (
-                            <div
-                                className="mb-6 p-4 rounded-lg text-sm"
-                                style={{
-                                    background: 'rgba(239, 68, 68, 0.1)',
-                                    color: 'var(--color-error)',
-                                    border: '1px solid rgba(239, 68, 68, 0.2)'
-                                }}
-                                role="alert"
-                            >
-                                {formError || error}
-                            </div>
-                        )}
 
                         {/* Email Field */}
                         <div className="mb-4">
@@ -159,6 +149,15 @@ const Login = () => {
                     </p>
                 </div>
             </div>
+
+            {/* Toast Notification */}
+            {toast && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(null)}
+                />
+            )}
         </main>
     );
 };
