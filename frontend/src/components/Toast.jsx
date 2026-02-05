@@ -1,16 +1,22 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const Toast = ({ message, type = 'success', onClose, duration = 3000 }) => {
     const [isVisible, setIsVisible] = useState(true);
+    const onCloseRef = useRef(onClose);
+
+    // Keep the ref updated
+    useEffect(() => {
+        onCloseRef.current = onClose;
+    }, [onClose]);
 
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsVisible(false);
-            setTimeout(onClose, 300); // Wait for animation to complete
+            setTimeout(() => onCloseRef.current(), 300); // Wait for animation to complete
         }, duration);
 
         return () => clearTimeout(timer);
-    }, [duration, onClose]);
+    }, [duration]);
 
     const bgColor = {
         success: 'rgba(34, 197, 94, 0.9)',

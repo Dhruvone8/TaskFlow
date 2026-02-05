@@ -155,6 +155,7 @@ const Login = () => {
                 <Toast
                     message={toast.message}
                     type={toast.type}
+                    duration={3000}
                     onClose={() => setToast(null)}
                 />
             )}
